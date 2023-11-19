@@ -2,12 +2,10 @@ import "./App.css";
 import { Suspense, useState } from "react";
 import { LoadGLTF } from "./component/load-gltf";
 import { Canvas } from "@react-three/fiber";
-import {
-  OrbitControls, Stage,
-} from "@react-three/drei";
+import { Loader, OrbitControls, Stage } from "@react-three/drei";
 
 function App() {
-  const [selectedFile, setSelectedFile] = useState('');
+  const [selectedFile, setSelectedFile] = useState("");
 
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
@@ -30,14 +28,20 @@ function App() {
         </button>{" "}
         {selectedFile && (
           <>
-              <Canvas style={{ height: "100vh", width: "100%" }} flat dpr={[1, 2]} camera={{ fov: 50 }}>
-      <Suspense fallback={null}>
-        <Stage preset="rembrandt" intensity={1}  environment="city">
-        <LoadGLTF file={selectedFile} />
-        </Stage>
-      </Suspense>
-      <OrbitControls enableRotate={false} />
-    </Canvas>
+            <Canvas
+              style={{ height: "100vh", width: "100%" }}
+              flat
+              dpr={[1, 2]}
+              camera={{ fov: 50 }}
+            >
+              <Suspense fallback={null}>
+                <Stage preset="rembrandt" intensity={1} environment="city">
+                  <LoadGLTF file={selectedFile} />
+                </Stage>
+              </Suspense>
+              <OrbitControls enableRotate={false} />
+            </Canvas>
+            <Loader />
             {/* <Canvas style={{ height: "100vh", width: "100%" }} flat dpr={[1, 2]} camera={{ fov: 50, position: [-3, 8, 8] }}>
               <ambientLight
                  intensity={0.6}
