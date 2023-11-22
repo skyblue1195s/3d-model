@@ -24,6 +24,12 @@ export function LoadGLTF(props: Props) {
                   map: imageTexture,
               });
               }
+              if (material && material.name === 'VIDEO1') {
+                
+                mesh.material = new THREE.MeshStandardMaterial({
+                  map: video,
+              });
+              }
               if (mesh && mesh.name === 'Mesh238_M_13_0') {
                 const path = `./POSTER1.jpg`
                 const imageTexture = imageTextureLoader.load(path)
