@@ -10,7 +10,7 @@ export function LoadGLTF(props: Props) {
   const copiedScene = useMemo(() => gltf?.scene.clone(), [gltf?.scene]);
   const imageTextureLoader = useMemo(() => new THREE.TextureLoader(), []);
   const video = useVideoTexture('./video.mp4')
-  const poster = ['POSTER1', 'POSTER2', 'POSTER3', 'POSTER4', 'POSTER5']
+  const poster = ['POSTER1', 'POSTER2', 'POSTER3', 'POSTER4', 'POSTER5', 'Mesh238_M_13_0', 'Mesh239_M_12_0']
   useEffect(() => {
 
             copiedScene.traverse((node: any) => {
@@ -24,7 +24,21 @@ export function LoadGLTF(props: Props) {
                   map: imageTexture,
               });
               }
-              if (material && material.name === 'VIDEO1') {
+              if (mesh && mesh.name === 'Mesh238_M_13_0') {
+                const path = `./POSTER1.jpg`
+                const imageTexture = imageTextureLoader.load(path)
+                mesh.material = new THREE.MeshStandardMaterial({
+                  map: imageTexture,
+              });
+              }
+              if (mesh &&  mesh.name === 'Mesh239_M_12_0') {
+                const path = `./POSTER2.jpg`
+                const imageTexture = imageTextureLoader.load(path)
+                mesh.material = new THREE.MeshStandardMaterial({
+                  map: imageTexture,
+              });
+              }
+              if (mesh && mesh.name === 'Mesh240_M_11_0') {
                 mesh.material = new THREE.MeshStandardMaterial({
                   map: video,
               });
@@ -38,11 +52,9 @@ const onClickObject = (event: any) => {
 }
 
   return (
-    <group>
       <primitive
           object={copiedScene}
           onClick={onClickObject}
       />
-  </group>
   )
 }
