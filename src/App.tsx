@@ -28,21 +28,20 @@ function App() {
         </button>{" "}
         {selectedFile && (
           <>
-           <Suspense fallback={<Loader />}>
-            <Canvas
-              style={{ height: "100vh", width: "100%" }}
-              flat
-              dpr={[1, 2]}
-              camera={{ fov: 50 }}
-            >
-             
+            <Suspense fallback={<Loader />}>
+              <Canvas
+                style={{ height: "100vh", width: "100%" }}
+                flat
+                dpr={[1, 2]}
+                camera={{ fov: 50 }}
+              >
                 <Stage preset="rembrandt" intensity={1} environment="city">
                   <LoadGLTF file={selectedFile} />
                 </Stage>
-              <OrbitControls enableRotate={false} />
-            </Canvas>
+                <OrbitControls enableRotate={false} />
+              </Canvas>
             </Suspense>
-            
+
             {/* <Canvas style={{ height: "100vh", width: "100%" }} flat dpr={[1, 2]} camera={{ fov: 50, position: [-3, 8, 8] }}>
               <ambientLight
                  intensity={0.6}
