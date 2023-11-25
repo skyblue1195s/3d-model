@@ -1,17 +1,21 @@
 import "./App.css";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { LoadGLTF } from "./component/load-gltf";
 import { Canvas } from "@react-three/fiber";
 import { Loader, OrbitControls, Stage } from "@react-three/drei";
+import { ModalPopup } from "./component/modal";
 
 function App() {
   const [selectedFile, setSelectedFile] = useState("");
-
+  const [isVideo, setIsVideo] = useState(false);
+  const [url, setUrl] = useState("");
+  const [isShow, setIsShow] = useState(false);
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
     const objectURL = URL.createObjectURL(file);
     setSelectedFile(objectURL);
   };
+
   return (
     <Suspense>
       <div className="mt-5">
@@ -36,10 +40,20 @@ function App() {
                 camera={{ fov: 50 }}
               >
                 <Stage preset="rembrandt" intensity={1} environment="city">
-                  <LoadGLTF file={selectedFile} />
+                  <LoadGLTF
+                    file={selectedFile}
+                    setIsShow={setIsShow}
+                    setIsVideo={setIsVideo}
+                    setUrl={setUrl}
+                  />
                 </Stage>
-                <OrbitControls enableRotate={false} />
+                <OrbitControls enableRotate={true} />
               </Canvas>
+              <ModalPopup
+                type={isVideo ? "video" : "image"}
+                url={url}
+                isShow={isShow}
+              />
             </Suspense>
 
             {/* <Canvas style={{ height: "100vh", width: "100%" }} flat dpr={[1, 2]} camera={{ fov: 50, position: [-3, 8, 8] }}>
