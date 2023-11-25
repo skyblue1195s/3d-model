@@ -1,5 +1,5 @@
 import "./App.css";
-import { Suspense, useEffect, useRef, useState } from "react";
+import { Suspense, useState } from "react";
 import { LoadGLTF } from "./component/load-gltf";
 import { Canvas } from "@react-three/fiber";
 import { Loader, OrbitControls, Stage } from "@react-three/drei";
