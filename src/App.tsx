@@ -47,7 +47,7 @@ function App() {
                     setUrl={setUrl}
                   />
                 </Stage>
-                <OrbitControls enableRotate={true} />
+                <OrbitControls enablePan={false} enableRotate={false} />
               </Canvas>
               <ModalPopup
                 type={isVideo ? "video" : "image"}

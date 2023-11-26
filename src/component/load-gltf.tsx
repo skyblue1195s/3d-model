@@ -1,4 +1,5 @@
 import { useGLTF, useVideoTexture } from "@react-three/drei";
+import { useThree } from "@react-three/fiber";
 import { useEffect, useMemo } from "react";
 import * as THREE from "three";
 
@@ -14,7 +15,7 @@ export function LoadGLTF(props: Props) {
   const copiedScene = useMemo(() => gltf?.scene.clone(), [gltf?.scene]);
 
   const imageTextureLoader = useMemo(() => new THREE.TextureLoader(), []);
-  const video = useVideoTexture("./video.mp4");
+  const video = useVideoTexture("./video.mp4", { muted: true });
   const poster = [
     "POSTER1",
     "POSTER2",
@@ -45,7 +46,7 @@ export function LoadGLTF(props: Props) {
         mesh.material = new THREE.MeshStandardMaterial({
           map: video,
         });
-        mesh.material.name = material.name;
+        mesh.material.name = "VIDEO1";
       }
       if (mesh && mesh.name === "Mesh238_M_13_0") {
         const path = `./POSTER1.jpg`;
@@ -83,10 +84,41 @@ export function LoadGLTF(props: Props) {
       }
     });
   };
+  const { camera } = useThree();
+
+  const isObjectHoverFound = (event: any, name: string) => {
+    const pointer = new THREE.Vector2();
+    pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+    pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    const raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(pointer, camera);
+    const intersects = raycaster.intersectObjects(copiedScene.children);
+    console.log(intersects);
+    intersects.map((item) => console.log(item.object.material.name));
+    // const reducedIntersects = intersects.filter(
+    //   (intersect) => intersect.distance <= 150
+    // );
+    // const object = reducedIntersects.find(
+    //   (intersection: any) => intersection.object.name === name
+    // );
+    return "object";
+  };
 
   const isObjectFound = (event: any, name: string): boolean => {
     const { intersections } = event;
     const reducedIntersections = intersections.slice(0, 3);
+    // reducedIntersections.map((item) => console.log(item.object.name));
+    if (name === "Plane1835") {
+      console.log(
+        reducedIntersections.find(
+          (intersection: any) => intersection.object.name === name
+        )
+      );
+      const objectFound = reducedIntersections.findIndex(
+        (intersection: any) => intersection.object.name === name
+      );
+      return objectFound > -1;
+    }
     const objectFound = reducedIntersections.findIndex(
       (intersection: any) => intersection.object.material.name === name
     );
@@ -94,16 +126,22 @@ export function LoadGLTF(props: Props) {
   };
 
   const onHoverObject = (event: any) => {
-    console.log("event", event);
+    isObjectFound(event, "POSTER1");
     // console.log(event);
-    // const isVideoFound = isObjectFound(event, "POSTER2");
-    // const isProjectFound = isObjectFound(event, "POSTER4");
-    // // const isEnterpriseFound = isObjectFound(event, 'LOGO');
-    // if (isVideoFound || isProjectFound) {
-    //   document.body.style.cursor = "pointer";
-    // } else {
-    //   document.body.style.cursor = "auto";
-    // }
+    // const poster1 = isObjectHoverFound(event, "POSTER1");
+    // const poster2 = isObjectHoverFound(event, "POSTER2");
+    // const poster3 = isObjectHoverFound(event, "POSTER3");
+    const poster5 = isObjectFound(event, "POSTER5");
+    const video = isObjectFound(event, "Plane1835");
+    if (poster5 || video) {
+      document.body.style.cursor = "pointer";
+    } else {
+      document.body.style.cursor = "auto";
+    }
+  };
+
+  const onPointerOut = () => {
+    document.body.style.cursor = "auto";
   };
 
   return (
@@ -111,6 +149,7 @@ export function LoadGLTF(props: Props) {
       <primitive
         object={copiedScene}
         onPointerOver={onHoverObject}
+        onPointerOut={onPointerOut}
         onClick={onClickObject}
       />
     </>
