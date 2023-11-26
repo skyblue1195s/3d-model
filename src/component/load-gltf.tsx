@@ -1,5 +1,4 @@
 import { useGLTF, useVideoTexture } from "@react-three/drei";
-import { useThree } from "@react-three/fiber";
 import { useEffect, useMemo } from "react";
 import * as THREE from "three";
 
@@ -84,7 +83,6 @@ export function LoadGLTF(props: Props) {
       }
     });
   };
-  const { camera } = useThree();
 
   const isObjectFound = (event: any, name: string): boolean => {
     const { intersections } = event;
