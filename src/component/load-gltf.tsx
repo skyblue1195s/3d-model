@@ -86,24 +86,6 @@ export function LoadGLTF(props: Props) {
   };
   const { camera } = useThree();
 
-  const isObjectHoverFound = (event: any, name: string) => {
-    const pointer = new THREE.Vector2();
-    pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
-    pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    const raycaster = new THREE.Raycaster();
-    raycaster.setFromCamera(pointer, camera);
-    const intersects = raycaster.intersectObjects(copiedScene.children);
-    console.log(intersects);
-    intersects.map((item) => console.log(item.object.material.name));
-    // const reducedIntersects = intersects.filter(
-    //   (intersect) => intersect.distance <= 150
-    // );
-    // const object = reducedIntersects.find(
-    //   (intersection: any) => intersection.object.name === name
-    // );
-    return "object";
-  };
-
   const isObjectFound = (event: any, name: string): boolean => {
     const { intersections } = event;
     const reducedIntersections = intersections.slice(0, 3);
