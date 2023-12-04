@@ -14,7 +14,7 @@ export function LoadGLTF(props: Props) {
   const copiedScene = useMemo(() => gltf?.scene.clone(), [gltf?.scene]);
 
   const imageTextureLoader = useMemo(() => new THREE.TextureLoader(), []);
-  const video = useVideoTexture("./video.mp4", { muted: true });
+  const video = useVideoTexture("./exhibition.mp4", { muted: true });
   const poster = [
     "POSTER1",
     "POSTER2",
@@ -22,7 +22,7 @@ export function LoadGLTF(props: Props) {
     "POSTER4",
     "POSTER5",
     "Mesh238_M_13_0",
-    "Mesh239_M_12_0"
+    "Mesh239_M_12_0",
   ];
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export function LoadGLTF(props: Props) {
         const path = `./${material.name}.jpg`;
         const imageTexture = imageTextureLoader.load(path);
         mesh.material = new THREE.MeshStandardMaterial({
-          map: imageTexture
+          map: imageTexture,
         });
         mesh.material.name = material.name;
       }
@@ -43,37 +43,55 @@ export function LoadGLTF(props: Props) {
       }
       if (material && material.name === "VIDEO1") {
         mesh.material = new THREE.MeshStandardMaterial({
-          map: video
+          map: video,
         });
         mesh.material.name = "VIDEO1";
+      }
+      if (material && material.name.toLowerCase().includes("standee")) {
+        const path = `./standees.jpeg`;
+        const imageTexture = imageTextureLoader.load(path);
+        mesh.material = new THREE.MeshStandardMaterial({
+          map: imageTexture,
+        });
+        mesh.material.name = material.name;
       }
       if (mesh && mesh.name === "Mesh238_M_13_0") {
         const path = `./POSTER1.jpg`;
         const imageTexture = imageTextureLoader.load(path);
         mesh.material = new THREE.MeshStandardMaterial({
-          map: imageTexture
+          map: imageTexture,
         });
       }
       if (mesh && mesh.name === "Mesh239_M_12_0") {
         const path = `./POSTER2.jpg`;
         const imageTexture = imageTextureLoader.load(path);
         mesh.material = new THREE.MeshStandardMaterial({
-          map: imageTexture
+          map: imageTexture,
         });
       }
       if (mesh && mesh.name === "Mesh240_M_11_0") {
         mesh.material = new THREE.MeshStandardMaterial({
-          map: video
+          map: video,
         });
       }
     });
   }, [copiedScene]);
 
   const onClickObject = (event: any) => {
+    event.stopPropagation();
     const isVideoFound = isObjectFound(event, "VIDEO1");
+    const isConferenceRoom = isObjectFound(event, "Plane039");
+    const isExisted = isObjectFound(event, "Plane030");
+    const isStandee = isObjectFound(event, "STANDEE");
+    console.log(isStandee);
+    console.log(event);
+    if (isStandee) {
+      setUrl(`./standees.jpeg`);
+      setIsShow(true);
+    }
     setIsVideo(isVideoFound);
     if (isVideoFound) {
-      setUrl(`./video.mp4`);
+      setUrl(`./exhibition.mp4`);
       setIsShow(true);
     }
     poster.forEach((item) => {
@@ -82,15 +100,27 @@ export function LoadGLTF(props: Props) {
         setIsShow(true);
       }
     });
+
+    if (isConferenceRoom) {
+      alert("Đi đến phòng hội thảo");
+    }
+    if (isExisted) {
+      alert("Rời khỏi đây?");
+    }
   };
 
   const isObjectFound = (event: any, name: string): boolean => {
     const { intersections } = event;
     const reducedIntersections = intersections.slice(0, 3);
-    // reducedIntersections.map((item) => console.log(item.object.name));
-    if (name === "Plane1835") {
+    if (name === "Plane1835" || name === "Plane039" || name === "Plane030") {
       const objectFound = reducedIntersections.findIndex(
         (intersection: any) => intersection.object.name === name
+      );
+      return objectFound > -1;
+    }
+    if (name == "STANDEE") {
+      const objectFound = reducedIntersections.findIndex((intersection: any) =>
+        intersection.object.material.name.toLowerCase().includes("standee")
       );
       return objectFound > -1;
     }
@@ -101,18 +131,19 @@ export function LoadGLTF(props: Props) {
   };
 
   const onHoverObject = (event: any) => {
-    isObjectFound(event, "POSTER1");
+    console.log(event);
+    // isObjectFound(event, "POSTER1");
     // console.log(event);
     // const poster1 = isObjectHoverFound(event, "POSTER1");
     // const poster2 = isObjectHoverFound(event, "POSTER2");
     // const poster3 = isObjectHoverFound(event, "POSTER3");
-    const poster5 = isObjectFound(event, "POSTER5");
-    const video = isObjectFound(event, "Plane1835");
-    if (poster5 || video) {
-      document.body.style.cursor = "pointer";
-    } else {
-      document.body.style.cursor = "auto";
-    }
+    // const poster5 = isObjectFound(event, "POSTER5");
+    // const video = isObjectFound(event, "Plane1835");
+    // if (poster5 || video) {
+    //   document.body.style.cursor = "pointer";
+    // } else {
+    //   document.body.style.cursor = "auto";
+    // }
   };
 
   const onPointerOut = () => {
@@ -124,9 +155,9 @@ export function LoadGLTF(props: Props) {
       <primitive
         object={copiedScene}
         onPointerOver={onHoverObject}
-        onPointerOut={onPointerOut}
         onClick={onClickObject}
-        scale={2}
+        scale={10}
+        position={[0, -15, 10]}
       />
     </>
   );
