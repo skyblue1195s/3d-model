@@ -36,7 +36,7 @@ function App() {
               <Canvas
                 style={{ height: "100vh", width: "100%" }}
                 shadows
-                camera={{ position: [-10, 5, 5], fov: 50 }}
+                camera={{ position: [-14, 5, 5], fov: 50 }}
               >
                 <LoadGLTF
                   file={selectedFile}

@@ -126,6 +126,7 @@ export function LoadGLTF(props: Props) {
         onPointerOver={onHoverObject}
         onPointerOut={onPointerOut}
         onClick={onClickObject}
+        scale={2}
       />
     </>
   );
