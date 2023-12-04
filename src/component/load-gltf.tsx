@@ -146,10 +146,6 @@ export function LoadGLTF(props: Props) {
     // }
   };
 
-  const onPointerOut = () => {
-    document.body.style.cursor = "auto";
-  };
-
   return (
     <>
       <primitive
