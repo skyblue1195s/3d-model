@@ -2,7 +2,7 @@ import "./App.css";
 import { Suspense, useState } from "react";
 import { LoadGLTF } from "./component/load-gltf";
 import { Canvas } from "@react-three/fiber";
-import { Loader, OrbitControls, Stage } from "@react-three/drei";
+import { Loader, OrbitControls } from "@react-three/drei";
 import { ModalPopup } from "./component/modal";
 
 function App() {
@@ -35,22 +35,17 @@ function App() {
             <Suspense fallback={<Loader />}>
               <Canvas
                 style={{ height: "100vh", width: "100%" }}
-                flat
-                dpr={[1, 2]}
-                camera={{ fov: 50 }}
+                shadows
+                camera={{ position: [-10, 5, 5], fov: 50 }}
               >
-                <Stage preset="rembrandt" intensity={1} environment="city">
-                  <LoadGLTF
-                    file={selectedFile}
-                    setIsShow={setIsShow}
-                    setIsVideo={setIsVideo}
-                    setUrl={setUrl}
-                  />
-                </Stage>
-                <OrbitControls 
-                 // minPolarAngle={Math.PI * 0.5}
-                // maxPolarAngle={Math.PI * 0.5}
-                 />
+                <LoadGLTF
+                  file={selectedFile}
+                  setIsShow={setIsShow}
+                  setIsVideo={setIsVideo}
+                  setUrl={setUrl}
+                />
+                <ambientLight />
+                <OrbitControls makeDefault enableZoom={false} />
               </Canvas>
               <ModalPopup
                 type={isVideo ? "video" : "image"}
