@@ -47,7 +47,10 @@ function App() {
                     setUrl={setUrl}
                   />
                 </Stage>
-                <OrbitControls enablePan={false} enableRotate={false} />
+                <OrbitControls 
+                 // minPolarAngle={Math.PI * 0.5}
+                // maxPolarAngle={Math.PI * 0.5}
+                 />
               </Canvas>
               <ModalPopup
                 type={isVideo ? "video" : "image"}

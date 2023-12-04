@@ -28,6 +28,7 @@ export function LoadGLTF(props: Props) {
   useEffect(() => {
     copiedScene.traverse((node: any) => {
       const mesh = node as THREE.Mesh;
+      console.log('mesh', mesh);
       const material = mesh.material as THREE.Material;
       if (material && poster.includes(material.name)) {
         const path = `./${material.name}.jpg`;
@@ -39,7 +40,6 @@ export function LoadGLTF(props: Props) {
       }
       if (material && material.name === "POSTER1") {
         mesh.addEventListener("onPointerOver ", onHoverObject);
-        console.log(mesh);
       }
       if (material && material.name === "VIDEO1") {
         mesh.material = new THREE.MeshStandardMaterial({
@@ -89,11 +89,6 @@ export function LoadGLTF(props: Props) {
     const reducedIntersections = intersections.slice(0, 3);
     // reducedIntersections.map((item) => console.log(item.object.name));
     if (name === "Plane1835") {
-      console.log(
-        reducedIntersections.find(
-          (intersection: any) => intersection.object.name === name
-        )
-      );
       const objectFound = reducedIntersections.findIndex(
         (intersection: any) => intersection.object.name === name
       );
