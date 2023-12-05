@@ -45,7 +45,13 @@ function App() {
                   setUrl={setUrl}
                 />
                 <ambientLight />
-                <OrbitControls makeDefault enableZoom={false} />
+                <OrbitControls
+                  makeDefault
+                  enableZoom={false}
+                  enableDamping={true}
+                  minPolarAngle={Math.PI * 0.5}
+                  maxPolarAngle={Math.PI * 0.5}
+                />
               </Canvas>
               <ModalPopup
                 type={isVideo ? "video" : "image"}
