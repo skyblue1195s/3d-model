@@ -31,6 +31,7 @@ export function LoadGLTF(props: Props) {
       console.log("mesh", mesh);
       const material = mesh.material as THREE.Material;
       if (material && poster.includes(material.name)) {
+        console.log(material.name);
         const path = `./${material.name}.jpg`;
         const imageTexture = imageTextureLoader.load(path);
         mesh.material = new THREE.MeshStandardMaterial({
