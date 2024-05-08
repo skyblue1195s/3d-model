@@ -45,7 +45,7 @@ function App() {
                   setUrl={setUrl}
                 />
                 <ambientLight />
-                <OrbitControls makeDefault enableZoom={false} />
+                <OrbitControls makeDefault enableZoom={true} />
               </Canvas>
               <ModalPopup
                 type={isVideo ? "video" : "image"}

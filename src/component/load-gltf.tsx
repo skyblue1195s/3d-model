@@ -153,7 +153,7 @@ export function LoadGLTF(props: Props) {
         onPointerOver={onHoverObject}
         onClick={onClickObject}
         scale={10}
-        position={[0, -15, 10]}
+        position={[0, -15, -50]}
       />
     </>
   );
