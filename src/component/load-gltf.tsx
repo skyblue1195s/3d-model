@@ -14,7 +14,7 @@ export function LoadGLTF(props: Props) {
   const copiedScene = useMemo(() => gltf?.scene.clone(), [gltf?.scene]);
 
   const imageTextureLoader = useMemo(() => new THREE.TextureLoader(), []);
-  const video = useVideoTexture("./exhibition.mp4", { muted: true });
+  const video = useVideoTexture("http://103.163.119.70:3000/resources/b3ca16b4-d8da-4ab0-b88b-59267ec1a118.mp4", { muted: true });
   const poster = [
     "POSTER1",
     "POSTER2",
